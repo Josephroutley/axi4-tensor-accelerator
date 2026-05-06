@@ -1,0 +1,13 @@
+# Simulation Artifacts
+*.vcd
+*.fst
+*.wlf
+sim_build/
+obj_dir/
+
+# Python Caches
+__pycache__/
+*.pyc
+
+# OS Generated
+.DS_Store
