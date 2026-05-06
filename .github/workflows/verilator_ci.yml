@@ -1,0 +1,20 @@
+name: Verilator Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  hardware-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: CI/CD Pipeline Status
+        run: |
+          echo "Repository structure initialized successfully."
+          echo "Test phase pending: Waiting for AXI wrapper development before executing Verilator co-simulation."
