@@ -37,6 +37,32 @@ The datapath is designed to maximize computational density while integrating smo
 Verification will be handled via a high-performance Python co-simulation environment utilizing `Verilator` and `cocotbext-axi`. Automated testing will ensure strict compliance with the AMBA 4 specification while verifying computational accuracy cycle-by-cycle against `numpy` generated reference models to ensure zero mathematical drift.
 
 ## Directory Structure
-*   `hw/rtl/`: SystemVerilog source files (Compute core, AMBA wrappers, Async FIFOs).
-*   `sim/`: `cocotb` testbenches, Python (`numpy`) reference models, and AXI verification configurations.
-*   `docs/`: Architecture block diagrams, timing constraints, and memory map documentation.
+```text
+axi4-tensor-accelerator/
+├── .github/
+│   └── workflows/
+│       └── verilator_ci.yml       # GitHub Actions script for automated Verilator builds
+├── docs/
+│   ├── axi_registers.md           # Documentation for your AXI-Lite control registers
+│   └── spatial_grid.drawio        # Diagram of how data flows through the MAC array
+├── model/
+│   └── numpy_reference.py         # Python script to generate matrix answers
+├── hw/
+│   ├── include/
+│   │   └── tensor_pkg.sv          # Parameter definitions (grid size, bus widths)
+│   └── src/
+│       ├── mac_unit.sv            # Single Multiply-Accumulate block
+│       ├── spatial_array.sv       # The N x N grid of MAC units
+│       ├── axi_lite_slave.sv      # Control interface
+│       ├── axi4_master_dma.sv     # Autonomous memory fetch engine
+│       ├── async_fifo.sv          # Speed bridge buffers
+│       └── top_tensor_accel.sv    # Top-level IP wrapper
+├── sim/
+│   ├── tests/
+│   │   ├── test_mac_array.py      # cocotb unit test for the math core only
+│   │   ├── test_axi_dma.py        # cocotb test utilizing AXI Verification IPs
+│   │   └── test_full_system.py    # End-to-end integration test
+│   ├── Makefile                   # Build instructions
+│   └── requirements.txt           # Python dependencies (cocotb, cocotbext-axi, numpy)
+├── .gitignore                     # Ignore C++ build artifacts and waveforms
+└── README.md
